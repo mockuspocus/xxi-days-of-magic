@@ -43,11 +43,6 @@
     font-size: clamp(36px, 11vw, 54px); line-height: 1; letter-spacing: 0.04em; text-transform: uppercase;
   }
   .sub { margin: 10px 0 0; font-style: italic; font-weight: 500; font-size: 19px; line-height: 1.25; }
-  .progress {
-    margin: 16px 0 0; display: inline-flex; padding: 6px 14px;
-    border: 1px solid var(--border); border-radius: 999px; background: var(--card);
-    font-weight: 600; font-size: 15px; letter-spacing: 0.04em;
-  }
   .star { position: absolute; filter: drop-shadow(0 0 4px rgba(255,255,255,.95)); }
 
   ol.days { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -96,7 +91,6 @@
     <p class="kicker">after the day of Nastassja · november</p>
     <h1>XXI days<br>of magic</h1>
     <p class="sub">catch the main magic of every day — and write it down</p>
-    <p class="progress" aria-live="polite">магии поймано:&nbsp;<span id="count">0</span>&nbsp;из&nbsp;21</p>
   </header>
 
   <ol class="days" id="days"></ol>
@@ -140,13 +134,10 @@
   }
 
   function update() {
-    let n = 0;
     list.querySelectorAll('.day').forEach(li => {
       const filled = !!(notes[li.dataset.day] || '').trim();
       li.classList.toggle('filled', filled);
-      if (filled) n++;
     });
-    document.getElementById('count').textContent = n;
   }
   update();
 
