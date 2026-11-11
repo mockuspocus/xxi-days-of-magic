@@ -65,6 +65,7 @@
     outline: none; field-sizing: content;
   }
   textarea::placeholder { color: var(--line); opacity: 1; }
+  .fixed { margin: 0; padding: 4px 0 6px; font-style: italic; font-weight: 600; font-size: 18px; line-height: 1.3; }
   textarea:focus { border-bottom-color: var(--ink); }
 
   footer { margin-top: 26px; text-align: center; font-size: 15px; font-style: italic; }
@@ -122,13 +123,21 @@
     li.innerHTML =
       '<div class="date"><span class="num">' + d + '</span><span class="wd">' + wd + '</span></div>' +
       '<div><span class="today-tag">сегодня ✦</span></div>';
-    const ta = document.createElement('textarea');
-    ta.rows = 1;
-    ta.placeholder = d === 10 ? 'the day of Nastassja ✦' : 'главное волшебство дня';
-    ta.setAttribute('aria-label', d + ' ноября, главное волшебство дня');
-    ta.value = notes[d] || '';
-    ta.addEventListener('input', () => { notes[d] = ta.value; save(); update(); });
-    li.lastChild.appendChild(ta);
+    if (d === 10) {
+      // the birthday itself: already filled in, nothing to write
+      const p = document.createElement('p');
+      p.className = 'fixed';
+      p.textContent = 'the day of Nastassja ✦';
+      li.lastChild.appendChild(p);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.rows = 1;
+      ta.placeholder = 'главное волшебство дня';
+      ta.setAttribute('aria-label', d + ' ноября, главное волшебство дня');
+      ta.value = notes[d] || '';
+      ta.addEventListener('input', () => { notes[d] = ta.value; save(); update(); });
+      li.lastChild.appendChild(ta);
+    }
     if (d === todayNum) li.classList.add('today');
     list.appendChild(li);
   }
